@@ -3,6 +3,7 @@ package view.dto;
 public class NumberDto {
 
     private String number;
+    private String newnumber;
     private NumberType numberType;
 
     public NumberDto() {}
@@ -27,10 +28,13 @@ public class NumberDto {
     public void setNumberType(NumberType numberType) {
         this.numberType = numberType;
     }
+    public String getNewnumber() {
+        return newnumber;
+    }
 
-
-
-
+    public void setNewnumber(String newnumber) {
+        this.newnumber = newnumber;
+    }
 
 
 

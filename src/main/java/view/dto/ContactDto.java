@@ -6,6 +6,8 @@ import java.util.List;
 public class ContactDto {
     private String firstname;
     private String lastname;
+    private String newfirstname;
+    private String newlastname;
     private List<NumberDto> numberList;
 
     public ContactDto(String firstname, String lastname, List<NumberDto> numberDtos) {
@@ -28,6 +30,22 @@ public class ContactDto {
 
     public void setNumberList(List<NumberDto> numberList) {
         this.numberList = numberList;
+    }
+
+    public String getNewfirstname() {
+        return newfirstname;
+    }
+
+    public void setNewfirstname(String newfirstname) {
+        this.newfirstname = newfirstname;
+    }
+
+    public String getNewlastname() {
+        return newlastname;
+    }
+
+    public void setNewlastname(String newlastname) {
+        this.newlastname = newlastname;
     }
 
 }

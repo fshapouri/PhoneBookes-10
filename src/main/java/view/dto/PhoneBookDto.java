@@ -4,6 +4,7 @@ import java.util.List;
 
 public class PhoneBookDto {
     private String phonebookName;
+    private String newPhoneBookName;
     private List<ContactDto> contactList;
 
     public PhoneBookDto(String phonebookName, List<ContactDto> contactList) {
@@ -11,7 +12,8 @@ public class PhoneBookDto {
         this.contactList = contactList;
     }
 
-    public PhoneBookDto() {}
+    public PhoneBookDto() {
+    }
 
     public String getPhonebookName() {
         return phonebookName;
@@ -29,10 +31,8 @@ public class PhoneBookDto {
         this.contactList = contactList;
     }
 
+    public String getNewPhoneBookName() {return newPhoneBookName;}
 
-
-
-
-
+    public void setNewPhoneBookName(String newPhoneBookName) {this.newPhoneBookName = newPhoneBookName;}
 
 }

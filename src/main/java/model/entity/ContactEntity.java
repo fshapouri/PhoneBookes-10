@@ -1,6 +1,5 @@
 package model.entity;
 
-import view.dto.NumberDto;
 import java.util.List;
 
 public class ContactEntity {
@@ -9,6 +8,7 @@ public class ContactEntity {
     private String lastname;
     private List<NumberEntity> numberList;
     private int phoneBookId;
+    private int contactId;
 
     public ContactEntity(String firstname, String lastname, List<NumberEntity> numberList,int phoneBookId) {
         this.firstname = firstname;
@@ -39,6 +39,14 @@ public class ContactEntity {
 
     public void setNumberList(List<NumberEntity> numberList) {
         this.numberList = numberList;
+    }
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
     }
 
 
