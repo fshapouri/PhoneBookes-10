@@ -1,6 +1,9 @@
 package dao;
 
+import com.sun.deploy.security.ValidationState;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import model.entity.ContactEntity;
+import view.dto.NumberType;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -155,6 +158,7 @@ public class ContactDao {
             while (resultSet.next()) {
                 System.out.print(resultSet.getString("NUMBERS") + "\t");
                 System.out.println(resultSet.getString("TYPES") + "\t");
+//                System.out.println(NumberType.valueOf(resultSet.getString("TYPES")) + "\t");  //is it true??
             }
             resultSet.close();
             close();
@@ -167,7 +171,7 @@ public class ContactDao {
         boolean result;
         try {
             open();
-            st.executeUpdate("UPDATE CONTACT SET FIRSTNAME= '"+contactEntity.getFirstname()+"' , LASTNAME='"+contactEntity.getLastname()+"' WHERE CONTACT_ID="+contactEntity.getContactId()+" ");
+            st.executeUpdate("UPDATE CONTACT SET FIRSTNAME= '"+contactEntity.getNewfirstname()+"' , LASTNAME='"+contactEntity.getNewlastname()+"' WHERE CONTACT_ID="+contactEntity.getContactId()+" ");
             result = true;
         } catch (Exception e) {
             e.printStackTrace();
