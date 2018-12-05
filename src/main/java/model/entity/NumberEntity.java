@@ -6,11 +6,16 @@ public class NumberEntity {
     private NumberType numberType;
     private int contactId;
     private int numberId;
+    private String newnumber;
 
     public NumberEntity(String number, NumberType numberType, int contactId) {
         this.number = number;
         this.numberType = numberType;
         this.contactId=contactId;
+    }
+    public NumberEntity(String number, NumberType numberType) {
+        this.number = number;
+        this.numberType = numberType;
     }
 
     public NumberEntity() {}
@@ -42,6 +47,14 @@ public class NumberEntity {
     public void setNumberId(int numberId) {
         this.numberId = numberId;
     }
+    public String getNewnumber() {
+        return newnumber;
+    }
+
+    public void setNewnumber(String newnumber) {
+        this.newnumber = newnumber;
+    }
+
 
 
 }

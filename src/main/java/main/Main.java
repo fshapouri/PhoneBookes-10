@@ -1,4 +1,4 @@
-package view;
+package main;
 
 import view.ui.PhoneBookUI;
 import view.ui.View;
@@ -7,12 +7,12 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        View view=new View();
+        View view=View.getInstance();
         PhoneBookUI phoneBookUI = new PhoneBookUI();
         Scanner input = new Scanner(System.in);
         boolean exit = true;
         while (exit) {
-            System.out.println("please Enter a number: " + "1.Add\t" + "2.Search\t" + "3.Display\t" + "4.Edit\t" + "5.Delete\t" + "6.Report\t" + "7.Exit");
+            System.out.println("please Enter a number: " + "1.Add\t" + "2.Search\t" + "3.Display\t" + "4.Edit\t" + "5.Delete\t" + "6.ReportTemplate\t" + "7.Exit");
             int num = input.nextInt();
             switch (num) {
                 case 1:
@@ -30,14 +30,12 @@ public class Main {
                 case 5:
                     view.remove();
                     break;
-//                case 6:
-//                    phoneBookUI.reaport();
-//                    break;
+                case 6:
+                    view.reports();
+                    break;
                 case 7:
                     exit = false;
             }
         }
-
-
     }
 }

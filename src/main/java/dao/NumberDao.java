@@ -170,7 +170,7 @@ public class NumberDao {
     public void editNumber(NumberEntity numberEntity){
         try {
             open();
-            st.executeUpdate("UPDATE PHONENUMBER SET NUMBERS = '"+numberEntity.getNumber()+"' , TYPES= '"+numberEntity.getNumberType()+"'  WHERE NUMBER_ID="+numberEntity.getNumberId()+"");
+            st.executeUpdate("UPDATE PHONENUMBER SET NUMBERS = '"+numberEntity.getNewnumber()+"' , TYPES= '"+numberEntity.getNumberType()+"'  WHERE NUMBER_ID="+numberEntity.getNumberId()+"");
             close();
         } catch (Exception e) {
             e.printStackTrace();

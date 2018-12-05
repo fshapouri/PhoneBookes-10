@@ -1,6 +1,7 @@
 package model.service;
 
 import dao.NumberDao;
+import model.entity.ContactEntity;
 import model.entity.NumberEntity;
 import view.dto.NumberDto;
 
@@ -8,30 +9,28 @@ import java.util.List;
 
 public class NumberService {
     private NumberDao numberDao = NumberDao.getInstance();
+    private final static NumberService instance= new NumberService();
 
-    boolean insertNumber(List<NumberDto> numberDtoList, int contactId) {
-        NumberEntity numberEntity = new NumberEntity();
-        boolean result = false;
-
-        for (NumberDto numberDto : numberDtoList) {
-            numberEntity.setNumber(numberDto.getNumber());
-            numberEntity.setNumberType(numberDto.getNumberType());
-            numberEntity.setContactId(contactId);
-            if (!(numberDao.searchNumberById(numberEntity))) {
-                numberDao.insertNumber(numberEntity);
-                result = true;
-            } else result = false;
-        }
-        return result;
+    private NumberService(){
     }
 
-    public boolean searchNumber(NumberDto numberDto) {
-        NumberEntity numberEntity = new NumberEntity();
+    public static NumberService getInstance(){
+        return instance;
+    }
+
+    void insertNumber(ContactEntity contactEntity) {
+
+        for (NumberEntity numberEntity : contactEntity.getNumberList()) {
+            numberEntity.setContactId(contactEntity.getContactId());
+            if (!(numberDao.searchNumberById(numberEntity)))
+                numberDao.insertNumber(numberEntity);
+        }
+    }
+
+    public boolean searchNumber(NumberEntity numberEntity) {
         boolean result = false;
         try {
-            numberEntity.setNumber(numberDto.getNumber());
-            if (numberDao.searchNumberByNum(numberEntity)) result = true;
-            else result = false;
+            result = numberDao.searchNumberByNum(numberEntity);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,17 +38,13 @@ public class NumberService {
         return result;
     }
 
-    public boolean editNumber(NumberDto numberDto){
-        NumberEntity numberEntity=new NumberEntity();
+    public boolean editNumber(NumberEntity numberEntity){
         boolean result=false;
         try {
-            numberEntity.setNumber(numberDto.getNumber());
             if (numberDao.searchNumberByNum(numberEntity)){
-                List<NumberEntity>numberEntities=numberDao.selectNumberlist(numberEntity);
-                for (NumberEntity numberEntity1:numberEntities) {
+                List<NumberEntity>numberEntitiesId=numberDao.selectNumberlist(numberEntity);
+                for (NumberEntity numberEntity1:numberEntitiesId) {
                     numberEntity.setNumberId(numberEntity1.getNumberId());
-                    numberEntity.setNumber(numberDto.getNewnumber());
-                    numberEntity.setNumberType(numberDto.getNumberType());
                     numberDao.editNumber(numberEntity);
                 }
                 result=true;
@@ -59,30 +54,9 @@ public class NumberService {
         }
         return result;
     }
-
-//    public boolean editNumber(NumberDto numberDto){
-//        NumberEntity numberEntity=new NumberEntity();
-//        boolean result=false;
-//        int numberId;
-//        try {
-//            numberEntity.setNumber(numberDto.getNumber());
-//            if (numberDao.searchNumberByNum(numberEntity)){
-//                numberId=numberDao.selectNumber(numberEntity);
-//                numberEntity.setNumber(numberDto.getNewnumber());
-//                numberEntity.setNumberType(numberDto.getNumberType());
-//                numberEntity.setNumberId(numberId);
-//                numberDao.editNumber(numberEntity);
-//                result=true;
-//            }   else result=false;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return result;
-//    }
-
-    boolean removeNumber(int contactId){
+    //delete number of contact
+    void removeNumber(int contactId){
         NumberEntity numberEntity= new NumberEntity();
-        boolean result=false;
         try{
             numberEntity.setContactId(contactId);
             if (numberDao.searchbyContactId(numberEntity)){
@@ -91,22 +65,18 @@ public class NumberService {
                     numberEntity.setNumberId(numEntity.getNumberId());
                     numberDao.removeNumber(numberEntity);
                 }
-                result=true;
-            }else result=false;
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
-        return result;
     }
-
-     public boolean removeNumber(NumberDto numberDto) {
-        NumberEntity numberEntity = new NumberEntity();
+//delete number
+     public boolean removeNumber(NumberEntity numberEntity) {
         boolean result = false;
         try {
-            numberEntity.setNumber(numberDto.getNumber());
             if (numberDao.searchNumberByNum(numberEntity)) {
-                List<NumberEntity> numberEntities = numberDao.selectNumberlist(numberEntity);
-                for (NumberEntity numEntity : numberEntities) {
+                List<NumberEntity> numberEntitiesId = numberDao.selectNumberlist(numberEntity);
+                for (NumberEntity numEntity : numberEntitiesId) {
                     numberEntity.setNumberId(numEntity.getNumberId());
                     numberDao.removeNumber(numberEntity);
                     result = true;

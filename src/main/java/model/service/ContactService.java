@@ -2,27 +2,34 @@ package model.service;
 
 import dao.ContactDao;
 import model.entity.ContactEntity;
+import model.entity.PhoneBookEntity;
 import view.dto.ContactDto;
 
 import java.util.List;
 
 public class ContactService {
-   private ContactDao contactDao = ContactDao.getInstance();
-   private NumberService numberService = new NumberService();
+    private final static ContactService instance= new ContactService();
+    private ContactDao contactDao = ContactDao.getInstance();
+    private NumberService numberService = NumberService.getInstance();
 
-    boolean insertContact(List<ContactDto> contactDtos, int phoneBookId) {
-        ContactEntity contactEntity = new ContactEntity();
+    private ContactService(){
+    }
+
+    public static ContactService getInstance(){
+        return instance;
+    }
+
+    boolean insertContact(PhoneBookEntity phoneBookEntity) {
         int contactId;
         boolean result = false;
         try {
-            for (ContactDto contactdto : contactDtos) {
-                contactEntity.setFirstname(contactdto.getFirstname());
-                contactEntity.setLastname(contactdto.getLastname());
-                contactEntity.setPhoneBookId(phoneBookId);
+            for (ContactEntity contactEntity : phoneBookEntity.getContactList()) {
+                contactEntity.setPhoneBookId(phoneBookEntity.getPhoneBookId());
                 if (!(contactDao.searchContactById(contactEntity))) {
                     contactDao.insertContact(contactEntity);
                     contactId = contactDao.selectContact(contactEntity);
-                    numberService.insertNumber(contactdto.getNumberList(), contactId);
+                    contactEntity.setContactId(contactId);
+                    numberService.insertNumber(contactEntity);
                     result = true;
                 } else {
                     result = false;
@@ -35,44 +42,30 @@ public class ContactService {
         return result;
     }
 
-
-    public boolean searchContact(ContactDto contactDto) {
-        ContactEntity contactEntity = new ContactEntity();
+    public boolean searchContact(ContactEntity contactEntity) {
         boolean result = false;
         try {
-            contactEntity.setFirstname(contactDto.getFirstname());
-            contactEntity.setLastname(contactDto.getLastname());
-            if (contactDao.searchContactByName(contactEntity))
-                result=true;
-            else result=false;
+            result = contactDao.searchContactByName(contactEntity);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
     }
 
-    public void displayContact(ContactDto contactDto) {
-        ContactEntity contactEntity = new ContactEntity();
-        contactEntity.setFirstname(contactDto.getFirstname());
-        contactEntity.setLastname(contactDto.getLastname());
+    public void displayContact(ContactEntity contactEntity) {
         contactDao.displayContact(contactEntity);
     }
 
-    public boolean editContact(ContactDto contactDto){
-        boolean result=false;
+    public boolean editContact(ContactEntity contactEntity) {
+        boolean result = false;
         int contactId;
-        ContactEntity contactEntity=new ContactEntity();
         try {
-            contactEntity.setFirstname(contactDto.getFirstname());
-            contactEntity.setLastname(contactDto.getLastname());
-            if(contactDao.searchContactByName(contactEntity)){
-                contactId=contactDao.selectContact(contactEntity);
-                contactEntity.setFirstname(contactDto.getNewfirstname());
-                contactEntity.setLastname(contactDto.getNewlastname());
+            if (contactDao.searchContactByName(contactEntity)) {
+                contactId = contactDao.selectContact(contactEntity);
                 contactEntity.setContactId(contactId);
                 contactDao.editContact(contactEntity);
-                result=true;
-            }else result=false;
+                result = true;
+            } else result = false;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,15 +73,16 @@ public class ContactService {
         return result;
     }
 
-    void removeContact(int phoneBookId){
+    //delete contact of phonebook
+    void removeContact(int phoneBookId) {
         int contactId;
-        ContactEntity contactEntity=new ContactEntity();
-        try{
+        ContactEntity contactEntity = new ContactEntity();
+        try {
             contactEntity.setPhoneBookId(phoneBookId);
-            if (contactDao.searchByPhoneId(contactEntity)){
-              List<ContactEntity> contactEntityList=contactDao.selectbyPhoneBookId(contactEntity);
-                for (ContactEntity conEntity:contactEntityList) {
-                    contactId=conEntity.getContactId();
+            if (contactDao.searchByPhoneId(contactEntity)) {
+                List<ContactEntity> contactEntityList = contactDao.selectbyPhoneBookId(contactEntity);
+                for (ContactEntity conEntity : contactEntityList) {
+                    contactId = conEntity.getContactId();
                     numberService.removeNumber(contactId);
                     contactEntity.setContactId(contactId);
                     contactDao.removeContact(contactEntity);
@@ -98,21 +92,19 @@ public class ContactService {
             e.printStackTrace();
         }
     }
-    public boolean removeContact(ContactDto contactDto){
-        boolean result=false;
-        int contactId;
-        ContactEntity contactEntity=new ContactEntity();
-        try{
-            contactEntity.setFirstname(contactDto.getFirstname());
-            contactEntity.setLastname(contactDto.getLastname());
 
-            if (contactDao.searchContactByName(contactEntity)){
-                contactId=contactDao.selectContact(contactEntity);
+    //delete contact
+    public boolean removeContact(ContactEntity contactEntity) {
+        boolean result = false;
+        int contactId;
+        try {
+            if (contactDao.searchContactByName(contactEntity)) {
+                contactId = contactDao.selectContact(contactEntity);
                 numberService.removeNumber(contactId);
                 contactEntity.setContactId(contactId);
                 contactDao.removeContact(contactEntity);
-                result=true;
-            }else result=false;
+                result = true;
+            } else result = false;
 
         } catch (Exception e) {
             e.printStackTrace();

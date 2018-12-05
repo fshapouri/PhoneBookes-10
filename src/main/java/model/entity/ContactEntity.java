@@ -9,12 +9,19 @@ public class ContactEntity {
     private List<NumberEntity> numberList;
     private int phoneBookId;
     private int contactId;
+    private String newfirstname;
+    private String newlastname;
 
     public ContactEntity(String firstname, String lastname, List<NumberEntity> numberList,int phoneBookId) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.numberList = numberList;
         this.phoneBookId=phoneBookId;
+    }
+    public ContactEntity(String firstname, String lastname, List<NumberEntity> numberList) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.numberList = numberList;
     }
 
     public ContactEntity() {}
@@ -48,6 +55,22 @@ public class ContactEntity {
     public void setContactId(int contactId) {
         this.contactId = contactId;
     }
+    public String getNewfirstname() {
+        return newfirstname;
+    }
+
+    public void setNewfirstname(String newfirstname) {
+        this.newfirstname = newfirstname;
+    }
+
+    public String getNewlastname() {
+        return newlastname;
+    }
+
+    public void setNewlastname(String newlastname) {
+        this.newlastname = newlastname;
+    }
+
 
 
 

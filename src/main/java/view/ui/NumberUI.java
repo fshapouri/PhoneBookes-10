@@ -1,5 +1,6 @@
 package view.ui;
 
+import facade.impl.NumberFacade;
 import model.service.NumberService;
 import view.dto.NumberType;
 import view.dto.NumberDto;
@@ -9,7 +10,8 @@ import java.util.Scanner;
 
 public class NumberUI {
     private Scanner input= new Scanner(System.in);
-    private NumberService numberService=new NumberService();
+    private NumberService numberService=NumberService.getInstance();
+    private NumberFacade numberFacade=NumberFacade.getInstance();
 
     List<NumberDto> insertNumber(){
         List<NumberDto> numberList=new ArrayList<NumberDto>();
@@ -55,7 +57,7 @@ public class NumberUI {
         System.out.print("Enter your number please:");
         String number=input.next();
         numberDto.setNumber(number);
-        if (numberService.searchNumber(numberDto))
+        if (numberFacade.searchNumber(numberDto))
             System.out.print("this number is available");
         else
             System.out.println("this number is not available");
@@ -93,7 +95,7 @@ public class NumberUI {
         numberDto.setNumberType(numType);
         numberDto.setNewnumber(newnumber);
 
-        if(numberService.editNumber(numberDto)){
+        if(numberFacade.editNumber(numberDto)){
             System.out.println("Successful editing ");
         } else System.out.println("Editing failed: there is not this number.");
     }
@@ -104,7 +106,7 @@ public class NumberUI {
         String number=input.next();
         numberDto.setNumber(number);
 
-        if (numberService.removeNumber(numberDto)){
+        if (numberFacade.removeNumber(numberDto)){
             System.out.println("Successful deleting ");
         } else System.out.println("Editing failed: there is not this number.");
     }

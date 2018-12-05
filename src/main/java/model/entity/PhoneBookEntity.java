@@ -5,6 +5,7 @@ import java.util.List;
 public class PhoneBookEntity {
     private int phoneBookId;
     private String phonebookName;
+    private String newPhoneBookName;
     private List<ContactEntity> contactList;
 
     public PhoneBookEntity(int phoneBookId, String phonebookName, List<ContactEntity> contactList) {
@@ -13,13 +14,20 @@ public class PhoneBookEntity {
         this.contactList = contactList;
     }
 
-    public PhoneBookEntity() {}
+    public PhoneBookEntity() {
+    }
 
-    public int getPhoneBookId() {return phoneBookId;}
+    public int getPhoneBookId() {
+        return phoneBookId;
+    }
 
-    public void setPhoneBookId(int phoneBookId) {this.phoneBookId = phoneBookId;}
+    public void setPhoneBookId(int phoneBookId) {
+        this.phoneBookId = phoneBookId;
+    }
 
-    public List<ContactEntity> getContactList() {return contactList;}
+    public List<ContactEntity> getContactList() {
+        return contactList;
+    }
 
     public void setContactList(List<ContactEntity> contactList) {
         this.contactList = contactList;
@@ -31,6 +39,14 @@ public class PhoneBookEntity {
 
     public void setPhonebookName(String phonebookName) {
         this.phonebookName = phonebookName;
+    }
+
+    public String getNewPhoneBookName() {
+        return newPhoneBookName;
+    }
+
+    public void setNewPhoneBookName(String newPhoneBookName) {
+        this.newPhoneBookName = newPhoneBookName;
     }
 
 }

@@ -1,12 +1,21 @@
 package view.ui;
-
+import model.reports.*;
 import java.util.Scanner;
 
 public class View {
+     private final static View instance= new View();
      private Scanner input=new Scanner(System.in);
      private PhoneBookUI phoneBookUI=new PhoneBookUI();
      private ContactUI contactUI=new ContactUI();
      private NumberUI numberUI=new NumberUI();
+
+
+     private View(){
+     }
+
+    public static View getInstance(){
+         return instance;
+    }
 
     public void search(){
         System.out.println("Which one do you want to search?" +"1. searchPhoneBook\t" + "2. searchContact\t" + "3. searchNumber");
@@ -82,11 +91,22 @@ public class View {
         System.out.println("********************************************************");
     }
 
-//    public void reports(){
-//        System.out.println("which one do you want to reported?\t" + "1.PhonebookReport\t" + "2.ContactReport\t" + "3.NumberReport");
-//        int reqest=input.nextInt();
-//        switch (reqest){
-//            case 1:
-//        }
-//    }
+    public void reports(){
+        System.out.println("which one do you want to reported?\t" + "1.PhonebookReport\t" + "2.ContactReport\t" + "3.NumberReport");
+        int reqest=input.nextInt();
+        switch (reqest){
+            case 1:
+                ;
+                break;
+            case 2:
+//                contactUI.report();
+                break;
+            case 3:
+//                numberUI.report();
+                break;
+                default:
+                    System.out.println("your request is invalid...try again please");
+        }
+        System.out.println("********************************************************");
+    }
 }
